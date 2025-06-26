@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redhos | Support Discord</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <style>
+        :root {
+            --discord-blurple: #5865F2;
+            --discord-dark: #2C2F33;
+            --discord-darker: #23272A;
+            --discord-light: #F6F6F6;
+            --accent: #FF6B6B;
+            --green: #3BA55C;
+            --yellow: #FAA61A;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--discord-darker);
+            color: white;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--discord-dark), var(--discord-darker));
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 10;
+            border-bottom: 3px solid var(--accent);
+        }
+
+        .owner-card {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1rem;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .owner-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .owner-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--accent);
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+        }
+
+        .owner-info h2 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(to right, var(--accent), var(--yellow));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .owner-info p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        .owner-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-top: 0.8rem;
+        }
+
+        .owner-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s;
+        }
+
+        .owner-links a:hover {
+            color: var(--accent);
+            transform: translateX(5px);
+        }
+
+        .owner-links a i {
+            color: var(--yellow);
+        }
+
+        .discord-btn {
+            background-color: var(--discord-blurple);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(88, 101, 242, 0.4);
+        }
+
+        .discord-btn:hover {
+            background-color: #4752C4;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(88, 101, 242, 0.6);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .card {
+            background: linear-gradient(145deg, var(--discord-dark), var(--discord-darker));
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .card h2 i {
+            color: var(--yellow);
+        }
+
+        .music-player {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .music-cover {
+            width: 150px;
+            height: 150px;
+            border-radius: 10px;
+            object-fit: cover;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .music-info {
+            text-align: center;
+        }
+
+        .music-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+            color: var(--accent);
+        }
+
+        .music-artist {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        .play-btn {
+            background: linear-gradient(135deg, var(--accent), var(--yellow));
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+        }
+
+        .play-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 7px 20px rgba(255, 107, 107, 0.6);
+        }
+
+        .play-btn.playing {
+            background: linear-gradient(135deg, var(--yellow), var(--accent));
+        }
+
+        .spotify-btn {
+            display: block;
+            background: linear-gradient(135deg, #1DB954, #1ED760);
+            color: white;
+            text-align: center;
+            padding: 1.2rem;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin: 2rem auto;
+            max-width: 300px;
+            transition: all 0.3s;
+            box-shadow: 0 5px 20px rgba(29, 185, 84, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .spotify-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(29, 185, 84, 0.5);
+        }
+
+        .spotify-btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0) 30%,
+                rgba(255, 255, 255, 0.3) 45%,
+                rgba(255, 255, 255, 0) 60%
+            );
+            transform: rotate(30deg);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) rotate(30deg); }
+            100% { transform: translateX(100%) rotate(30deg); }
+        }
+
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .link-item {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            padding: 1.2rem;
+            transition: all 0.3s;
+            border-left: 3px solid var(--accent);
+        }
+
+        .link-item:hover {
+            background: rgba(0, 0, 0, 0.4);
+            transform: translateX(5px);
+        }
+
+        .link-item a {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-weight: 500;
+        }
+
+        .link-item i {
+            color: var(--yellow);
+            font-size: 1.2rem;
+        }
+
+        .comments-container {
+            height: 300px;
+            overflow: hidden;
+            position: relative;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            padding: 1rem;
+        }
+
+        .comment {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            animation: slideIn 0.5s ease-out;
+            border-left: 3px solid var(--discord-blurple);
+            backdrop-filter: blur(5px);
+        }
+
+        .comment-user {
+            font-weight: 600;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .comment-user img {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+        }
+
+        .comment-text {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .info-section {
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.1), rgba(250, 166, 26, 0.1));
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            border: 1px solid rgba(255, 107, 107, 0.2);
+        }
+
+        .info-section h3 {
+            color: var(--yellow);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .info-section p {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .bee {
+            position: fixed;
+            width: 40px;
+            height: 40px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><path fill="%23FFD700" d="M18 2C9.72 2 3 8.72 3 17s6.72 15 15 15 15-6.72 15-15S26.28 2 18 2zm0 28C10.83 30 5 24.17 5 17S10.83 4 18 4s13 5.83 13 13-5.83 13-13 13z"/><path fill="%23333" d="M18 7c-5.52 0-10 4.48-10 10s4.48 10 10 10 10-4.48 10-10-4.48-10-10-10zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/><path fill="%23FFD700" d="M18 12c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zm0 8c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z"/><circle fill="%23333" cx="18" cy="17" r="1"/><path fill="%23FFD700" d="M12 17c0-3.31 2.69-6 6-6v12c-3.31 0-6-2.69-6-6z"/></svg>');
+            background-size: contain;
+            z-index: 100;
+            pointer-events: none;
+            filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.7));
+            transition: transform 0.5s ease-out;
+        }
+
+        footer {
+            background: linear-gradient(135deg, var(--discord-dark), var(--discord-darker));
+            padding: 1.5rem;
+            text-align: center;
+            margin-top: 3rem;
+            border-top: 3px solid var(--accent);
+        }
+
+        footer p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+
+            .owner-card {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .owner-links {
+                align-items: center;
+            }
+
+            .links-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+
+    <header>
+        <div class="owner-card" id="owner-card">
+            <img src="https://cdn1.booknode.com/author_picture/1417/matthieu-meriot-1416988-330-540.jpg" alt="Redhos" class="owner-avatar floating">
+            <div class="owner-info">
+                <h2>Salut, moi c'est Redhos</h2>
+                <p>Fondateur du serveur Discord</p>
+                <div class="owner-links">
+                    <a href="https://guns.lol/redhos" target="_blank"><i class="fas fa-link"></i> 𝐆𝐮𝐧𝐬𝐥𝐨𝐥</a>
+                    <a href="https://redosansms.github.io/Redhosgames/" target="_blank"><i class="fas fa-globe"></i> 𝐖𝐞𝐛𝐬𝐢𝐭𝐞</a>
+                </div>
+            </div>
+        </div>
+        <a href="https://discord.gg/KuqcvhNYpf" class="discord-btn" target="_blank">
+            <i class="fab fa-discord"></i> Rejoindre le Serveur
+        </a>
+    </header>
+
+    <div class="container">
+        <div class="card">
+            <h2><i class="fas fa-music"></i> Nos Musiques</h2>
+            <div class="music-player">
+                <img src="https://via.placeholder.com/150" alt="Cover" class="music-cover" id="music-cover">
+                <div class="music-info">
+                    <div class="music-title">Homo</div>
+                    <div class="music-artist">Redhos & Crew</div>
+                </div>
+                <button class="play-btn" id="play-btn">
+                    <i class="fas fa-play"></i> Écouter
+                </button>
+                <audio id="music-player" src="son.mp3"></audio>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2><i class="fas fa-music"></i> Crack Spotify Premium</h2>
+            <p>Obtenez Spotify Premium gratuitement avec notre crack exclusif. Simple, rapide et efficace!</p>
+            <a href="https://discord.gg/KuqcvhNYpf" class="spotify-btn">
+                <i class="fab fa-spotify"></i> Télécharger le Crack
+            </a>
+        </div>
+
+        <div class="card">
+            <h2><i class="fas fa-link"></i> Liens Importants</h2>
+            <div class="links-grid">
+                <div class="link-item">
+                    <a href="https://pixeldrain.com/u/m8ctteTM" target="_blank">
+                        <i class="fas fa-download"></i> Fichier Important
+                    </a>
+                </div>
+                <div class="link-item">
+                    <a href="https://guns.lol/redhos" target="_blank">
+                        <i class="fas fa-gamepad"></i> Guns.lol Profile
+                    </a>
+                </div>
+                <div class="link-item">
+                    <a href="https://redosansms.github.io/Redhosgames/" target="_blank">
+                        <i class="fas fa-laptop-code"></i> Site Web
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2><i class="fas fa-comments"></i> Avis des Membres</h2>
+            <div class="comments-container" id="comments-container"></div>
+        </div>
+
+        <div class="info-section">
+            <h3><i class="fas fa-info-circle"></i> Mes Informations</h3>
+            <p><strong>Pseudo Discord (2ème compte):</strong> vraisegirl</p>
+            <p><strong>Contact:</strong> Disponible sur le serveur Discord</p>
+            <p><strong>Serveur Discord:</strong> https://discord.gg/KuqcvhNYpf</p>
+        </div>
+    </div>
+
+    <div class="bee" id="bee"></div>
+
+    <footer>
+        <p>© 2023 Serveur Discord Redhos - Tous droits réservés</p>
+    </footer>
+
+    <script>
+        // Effet de particules
+        const particlesContainer = document.getElementById('particles');
+        const particleCount = 30;
+
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            
+            particle.style.left = `${Math.random() * 100}vw`;
+            particle.style.top = `${Math.random() * 100}vh`;
+            
+            const size = Math.random() * 5 + 1;
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            
+            particle.style.opacity = Math.random() * 0.5 + 0.1;
+            
+            const duration = Math.random() * 20 + 10;
+            particle.style.animation = `float ${duration}s infinite ease-in-out`;
+            particle.style.animationDelay = `${Math.random() * 10}s`;
+            
+            particlesContainer.appendChild(particle);
+        }
+
+        // Abeille animée
+        const bee = document.getElementById('bee');
+        let posX = Math.random() * window.innerWidth;
+        let posY = Math.random() * window.innerHeight;
+        let speedX = (Math.random() - 0.5) * 4;
+        let speedY = (Math.random() - 0.5) * 4;
+
+        function moveBee() {
+            posX += speedX;
+            posY += speedY;
+            
+            if (posX > window.innerWidth || posX < 0) {
+                speedX = -speedX;
+            }
+            
+            if (posY > window.innerHeight || posY < 0) {
+                speedY = -speedY;
+            }
+            
+            bee.style.left = `${posX}px`;
+            bee.style.top = `${posY}px`;
+            
+            bee.style.transform = `rotate(${speedX > 0 ? '0' : '180'}deg)`;
+            
+            requestAnimationFrame(moveBee);
+        }
+
+        moveBee();
+
+        // Commentaires avec Hamis Baqal et Modrex
+        const comments = [
+            {
+                user: "Hamis Baqal",
+                avatar: "https://cdn.discordapp.com/embed/avatars/0.png",
+                text: "Modrex le nul, il sait même pas jouer à Guns.lol 😂"
+            },
+            {
+                user: "Modrex",
+                avatar: "https://cdn.discordapp.com/embed/avatars/1.png",
+                text: "Ta gueule Hamis, t'es qu'un rageux"
+            },
+            {
+                user: "Alexandre Delecourt",
+                avatar: "https://cdn.discordapp.com/embed/avatars/2.png",
+                text: "La musique 'Homo' est un vrai banger!"
+            },
+            {
+                user: "Boublouf",
+                avatar: "https://cdn.discordapp.com/embed/avatars/3.png",
+                text: "Le serveur est incroyable, toujours des bons conseils!"
+            },
+            {
+                user: "Sxidoxdiciel",
+                avatar: "https://cdn.discordapp.com/embed/avatars/4.png",
+                text: "Redhos est un génie, son crack Spotify marche nickel."
+            },
+            {
+                user: "Dark Sxidox",
+                avatar: "https://cdn.discordapp.com/embed/avatars/5.png",
+                text: "La section musique est top, vivement le prochain son!"
+            },
+            {
+                user: "Redhos",
+                avatar: "https://cdn1.booknode.com/author_picture/1417/matthieu-meriot-1416988-330-540.jpg",
+                text: "Merci à tous pour votre soutien! Plus de contenus à venir."
+            }
+        ];
+
+        const commentsContainer = document.getElementById('comments-container');
+        let currentComment = 0;
+
+        function addComment() {
+            const comment = comments[currentComment];
+            const commentDiv = document.createElement('div');
+            commentDiv.className = 'comment';
+            commentDiv.innerHTML = `
+                <div class="comment-user">
+                    <img src="${comment.avatar}" alt="${comment.user}">
+                    ${comment.user}
+                </div>
+                <div class="comment-text">${comment.text}</div>
+            `;
+            
+            commentsContainer.appendChild(commentDiv);
+            
+            commentsContainer.scrollTop = commentsContainer.scrollHeight;
+            
+            if (commentsContainer.children.length > 4) {
+                commentsContainer.removeChild(commentsContainer.children[0]);
+            }
+            
+            currentComment = (currentComment + 1) % comments.length;
+            
+            setTimeout(addComment, 4000);
+        }
+
+        addComment();
+        setTimeout(addComment, 2000);
+
+        const ownerCard = document.getElementById('owner-card');
+        ownerCard.addEventListener('click', () => {
+            alert("Hey! Je suis Redhos, le créateur de ce serveur. Rejoins-nous pour plus de contenus exclusifs!");
+        });
+
+        const cards = document.querySelectorAll('.card');
+        cards.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                card.style.transform = `perspective(1000px) rotateX(${(y - rect.height/2) / 20}deg) rotateY(${(x - rect.width/2) / 20}deg)`;
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
+            });
+        });
+
+        const playBtn = document.getElementById('play-btn');
+        const musicPlayer = document.getElementById('music-player');
+        const musicCover = document.getElementById('music-cover');
+        
+        musicCover.src = `https://picsum.photos/seed/music/150/150`;
+        
+        playBtn.addEventListener('click', () => {
+            if (musicPlayer.paused) {
+                musicPlayer.play();
+                playBtn.innerHTML = '<i class="fas fa-pause"></i> Pause';
+                playBtn.classList.add('playing');
+            } else {
+                musicPlayer.pause();
+                playBtn.innerHTML = '<i class="fas fa-play"></i> Écouter';
+                playBtn.classList.remove('playing');
+            }
+        });
+        
+        musicPlayer.addEventListener('ended', () => {
+            playBtn.innerHTML = '<i class="fas fa-play"></i> Écouter';
+            playBtn.classList.remove('playing');
+        });
+    </script>
+</body>
+</html>
