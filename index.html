@@ -7,17 +7,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <style>
-        :root {
-            --discord-blurple: #5865F2;
-            --discord-dark: #2C2F33;
-            --discord-darker: #23272A;
-            --discord-light: #F6F6F6;
-            --accent: #FF6B6B;
-            --green: #3BA55C;
-            --yellow: #FAA61A;
-        }
-
         * {
+            cursor: url('cursor.png'), auto;
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -25,32 +16,79 @@
         }
 
         body {
-            background-color: var(--discord-darker);
-            color: white;
+            margin: 0;
+            padding: 0;
             min-height: 100vh;
-            position: relative;
+            font-family: Arial, sans-serif;
+            color: white;
             overflow-x: hidden;
+            background-color: #000;
         }
 
-        .particles {
+        #background-video {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -1;
-            pointer-events: none;
+            object-fit: cover;
+            z-index: -2;
         }
 
-        .particle {
-            position: absolute;
-            background-color: rgba(255, 255, 255, 0.5);
+        #volume-control {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            background: rgba(255,255,255,0.1);
+            padding: 5px 10px;
+            border-radius: 20px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        #volume-control svg {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            fill: white;
+            opacity: 0.8;
+        }
+
+        #volume-slider {
+            width: 100px;
+            background: rgba(255,255,255,0.2);
+            height: 4px;
+            border-radius: 2px;
+            -webkit-appearance: none;
+        }
+
+        #volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 15px;
+            height: 15px;
             border-radius: 50%;
-            pointer-events: none;
+            background: white;
+        }
+
+        .rgb-text {
+            animation: rgbAnimation 0.8s linear infinite;
+            opacity: 0.95;
+            text-shadow: 0 0 15px currentColor;
+            font-weight: bold;
+        }
+
+        @keyframes rgbAnimation {
+            0% { color: rgba(255, 0, 0, 0.95); }
+            33% { color: rgba(0, 255, 255, 0.95); }
+            66% { color: rgba(255, 0, 255, 0.95); }
+            100% { color: rgba(255, 255, 0, 0.95); }
         }
 
         header {
-            background: linear-gradient(135deg, var(--discord-dark), var(--discord-darker));
+            background: rgba(0, 0, 0, 0.3);
             padding: 1.5rem 2rem;
             display: flex;
             justify-content: space-between;
@@ -58,7 +96,8 @@
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
             position: relative;
             z-index: 10;
-            border-bottom: 3px solid var(--accent);
+            border-bottom: 3px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
         }
 
         .owner-card {
@@ -70,6 +109,8 @@
             border-radius: 12px;
             transition: all 0.3s ease;
             cursor: pointer;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .owner-card:hover {
@@ -82,16 +123,16 @@
             height: 80px;
             border-radius: 50%;
             object-fit: cover;
-            border: 3px solid var(--accent);
-            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
+            animation: float 3s ease-in-out infinite;
         }
 
         .owner-info h2 {
             font-size: 1.5rem;
             margin-bottom: 0.5rem;
-            background: linear-gradient(to right, var(--accent), var(--yellow));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: white;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
         }
 
         .owner-info p {
@@ -117,16 +158,18 @@
         }
 
         .owner-links a:hover {
-            color: var(--accent);
+            color: white;
             transform: translateX(5px);
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
         }
 
         .owner-links a i {
-            color: var(--yellow);
+            color: white;
+            opacity: 0.8;
         }
 
         .discord-btn {
-            background-color: var(--discord-blurple);
+            background-color: rgba(88, 101, 242, 0.7);
             color: white;
             padding: 0.8rem 1.5rem;
             border-radius: 8px;
@@ -137,10 +180,12 @@
             gap: 0.5rem;
             transition: all 0.3s;
             box-shadow: 0 4px 15px rgba(88, 101, 242, 0.4);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .discord-btn:hover {
-            background-color: #4752C4;
+            background-color: rgba(71, 82, 196, 0.8);
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(88, 101, 242, 0.6);
         }
@@ -152,13 +197,14 @@
         }
 
         .card {
-            background: linear-gradient(145deg, var(--discord-dark), var(--discord-darker));
-            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
             padding: 2rem;
             margin-bottom: 2rem;
             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             transition: transform 0.3s;
+            backdrop-filter: blur(5px);
         }
 
         .card:hover {
@@ -168,14 +214,16 @@
         .card h2 {
             font-size: 1.5rem;
             margin-bottom: 1.5rem;
-            color: var(--accent);
+            color: white;
             display: flex;
             align-items: center;
             gap: 0.8rem;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
         }
 
         .card h2 i {
-            color: var(--yellow);
+            color: white;
+            opacity: 0.8;
         }
 
         .music-player {
@@ -192,6 +240,7 @@
             border-radius: 10px;
             object-fit: cover;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .music-info {
@@ -202,7 +251,8 @@
             font-size: 1.3rem;
             font-weight: 600;
             margin-bottom: 0.3rem;
-            color: var(--accent);
+            color: white;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
         }
 
         .music-artist {
@@ -211,7 +261,7 @@
         }
 
         .play-btn {
-            background: linear-gradient(135deg, var(--accent), var(--yellow));
+            background: rgba(255, 255, 255, 0.2);
             color: white;
             border: none;
             padding: 0.8rem 2rem;
@@ -224,21 +274,23 @@
             gap: 0.5rem;
             margin-top: 1rem;
             transition: all 0.3s;
-            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .play-btn:hover {
             transform: scale(1.05);
-            box-shadow: 0 7px 20px rgba(255, 107, 107, 0.6);
+            box-shadow: 0 7px 20px rgba(255, 255, 255, 0.3);
         }
 
         .play-btn.playing {
-            background: linear-gradient(135deg, var(--yellow), var(--accent));
+            background: rgba(255, 255, 255, 0.3);
         }
 
         .spotify-btn {
             display: block;
-            background: linear-gradient(135deg, #1DB954, #1ED760);
+            background: linear-gradient(135deg, rgba(29, 185, 84, 0.7), rgba(30, 215, 96, 0.7));
             color: white;
             text-align: center;
             padding: 1.2rem;
@@ -252,6 +304,8 @@
             box-shadow: 0 5px 20px rgba(29, 185, 84, 0.3);
             position: relative;
             overflow: hidden;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .spotify-btn:hover {
@@ -293,7 +347,8 @@
             border-radius: 8px;
             padding: 1.2rem;
             transition: all 0.3s;
-            border-left: 3px solid var(--accent);
+            border-left: 3px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(5px);
         }
 
         .link-item:hover {
@@ -311,7 +366,8 @@
         }
 
         .link-item i {
-            color: var(--yellow);
+            color: white;
+            opacity: 0.8;
             font-size: 1.2rem;
         }
 
@@ -322,6 +378,8 @@
             background: rgba(0, 0, 0, 0.2);
             border-radius: 10px;
             padding: 1rem;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .comment {
@@ -330,23 +388,25 @@
             padding: 1rem;
             margin-bottom: 1rem;
             animation: slideIn 0.5s ease-out;
-            border-left: 3px solid var(--discord-blurple);
+            border-left: 3px solid rgba(255, 255, 255, 0.3);
             backdrop-filter: blur(5px);
         }
 
         .comment-user {
             font-weight: 600;
-            color: var(--accent);
+            color: white;
             display: flex;
             align-items: center;
             gap: 0.5rem;
             margin-bottom: 0.5rem;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
         }
 
         .comment-user img {
             width: 24px;
             height: 24px;
             border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
         .comment-text {
@@ -361,19 +421,21 @@
         }
 
         .info-section {
-            background: linear-gradient(135deg, rgba(255, 107, 107, 0.1), rgba(250, 166, 26, 0.1));
+            background: rgba(255, 255, 255, 0.1);
             border-radius: 12px;
             padding: 1.5rem;
             margin-top: 2rem;
-            border: 1px solid rgba(255, 107, 107, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
         }
 
         .info-section h3 {
-            color: var(--yellow);
+            color: white;
             margin-bottom: 1rem;
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
         }
 
         .info-section p {
@@ -382,24 +444,13 @@
             font-size: 0.9rem;
         }
 
-        .bee {
-            position: fixed;
-            width: 40px;
-            height: 40px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><path fill="%23FFD700" d="M18 2C9.72 2 3 8.72 3 17s6.72 15 15 15 15-6.72 15-15S26.28 2 18 2zm0 28C10.83 30 5 24.17 5 17S10.83 4 18 4s13 5.83 13 13-5.83 13-13 13z"/><path fill="%23333" d="M18 7c-5.52 0-10 4.48-10 10s4.48 10 10 10 10-4.48 10-10-4.48-10-10-10zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/><path fill="%23FFD700" d="M18 12c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zm0 8c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z"/><circle fill="%23333" cx="18" cy="17" r="1"/><path fill="%23FFD700" d="M12 17c0-3.31 2.69-6 6-6v12c-3.31 0-6-2.69-6-6z"/></svg>');
-            background-size: contain;
-            z-index: 100;
-            pointer-events: none;
-            filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.7));
-            transition: transform 0.5s ease-out;
-        }
-
         footer {
-            background: linear-gradient(135deg, var(--discord-dark), var(--discord-darker));
+            background: rgba(0, 0, 0, 0.3);
             padding: 1.5rem;
             text-align: center;
             margin-top: 3rem;
-            border-top: 3px solid var(--accent);
+            border-top: 3px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
         }
 
         footer p {
@@ -415,6 +466,12 @@
 
         .floating {
             animation: float 3s ease-in-out infinite;
+        }
+
+        /* 3D hover effect for cards */
+        .card {
+            transform-style: preserve-3d;
+            transition: transform 0.5s ease-out;
         }
 
         @media (max-width: 768px) {
@@ -439,13 +496,23 @@
     </style>
 </head>
 <body>
-    <div class="particles" id="particles"></div>
+    <video autoplay id="background-video" loop muted>
+        <source src="bg.mp4" type="video/mp4"/>
+        Your browser does not support the video tag.
+    </video>
+    
+    <div id="volume-control">
+        <svg viewBox="0 0 24 24">
+            <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+        </svg>
+        <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.5">
+    </div>
 
     <header>
         <div class="owner-card" id="owner-card">
             <img src="https://cdn1.booknode.com/author_picture/1417/matthieu-meriot-1416988-330-540.jpg" alt="Redhos" class="owner-avatar floating">
             <div class="owner-info">
-                <h2>Salut, moi c'est Redhos</h2>
+                <h2>Salut, moi c'est <span class="rgb-text">Redhos</span></h2>
                 <p>Fondateur du serveur Discord</p>
                 <div class="owner-links">
                     <a href="https://guns.lol/redhos" target="_blank"><i class="fas fa-link"></i> 𝐆𝐮𝐧𝐬𝐥𝐨𝐥</a>
@@ -462,7 +529,7 @@
         <div class="card">
             <h2><i class="fas fa-music"></i> Nos Musiques</h2>
             <div class="music-player">
-                <img src="https://via.placeholder.com/150" alt="Cover" class="music-cover" id="music-cover">
+                <img src="https://picsum.photos/seed/music/150/150" alt="Cover" class="music-cover" id="music-cover">
                 <div class="music-info">
                     <div class="music-title">Homo</div>
                     <div class="music-artist">Redhos & Crew</div>
@@ -510,73 +577,39 @@
 
         <div class="info-section">
             <h3><i class="fas fa-info-circle"></i> Mes Informations</h3>
-            <p><strong>Pseudo Discord (2ème compte):</strong> vraisegirl</p>
+            <p><strong>Pseudo Discord (2ème compte):</strong> <span class="rgb-text">vraisegirl</span></p>
             <p><strong>Contact:</strong> Disponible sur le serveur Discord</p>
             <p><strong>Serveur Discord:</strong> https://discord.gg/KuqcvhNYpf</p>
         </div>
     </div>
 
-    <div class="bee" id="bee"></div>
-
     <footer>
         <p>© 2023 Serveur Discord Redhos - Tous droits réservés</p>
     </footer>
 
+    <audio id="bgMusic" loop>
+        <source src="bg.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    
     <script>
-        // Effet de particules
-        const particlesContainer = document.getElementById('particles');
-        const particleCount = 30;
+        // Volume control
+        const bgMusic = document.getElementById('bgMusic');
+        const volumeSlider = document.getElementById('volume-slider');
+        const backgroundVideo = document.getElementById('background-video');
+        
+        bgMusic.volume = volumeSlider.value;
+        volumeSlider.addEventListener('input', function() {
+            bgMusic.volume = this.value;
+            backgroundVideo.volume = this.value;
+        });
 
-        for (let i = 0; i < particleCount; i++) {
-            const particle = document.createElement('div');
-            particle.classList.add('particle');
-            
-            particle.style.left = `${Math.random() * 100}vw`;
-            particle.style.top = `${Math.random() * 100}vh`;
-            
-            const size = Math.random() * 5 + 1;
-            particle.style.width = `${size}px`;
-            particle.style.height = `${size}px`;
-            
-            particle.style.opacity = Math.random() * 0.5 + 0.1;
-            
-            const duration = Math.random() * 20 + 10;
-            particle.style.animation = `float ${duration}s infinite ease-in-out`;
-            particle.style.animationDelay = `${Math.random() * 10}s`;
-            
-            particlesContainer.appendChild(particle);
-        }
+        // Play music on user interaction
+        document.addEventListener('click', function() {
+            bgMusic.play().catch(e => console.log("Music play prevented:", e));
+        }, { once: true });
 
-        // Abeille animée
-        const bee = document.getElementById('bee');
-        let posX = Math.random() * window.innerWidth;
-        let posY = Math.random() * window.innerHeight;
-        let speedX = (Math.random() - 0.5) * 4;
-        let speedY = (Math.random() - 0.5) * 4;
-
-        function moveBee() {
-            posX += speedX;
-            posY += speedY;
-            
-            if (posX > window.innerWidth || posX < 0) {
-                speedX = -speedX;
-            }
-            
-            if (posY > window.innerHeight || posY < 0) {
-                speedY = -speedY;
-            }
-            
-            bee.style.left = `${posX}px`;
-            bee.style.top = `${posY}px`;
-            
-            bee.style.transform = `rotate(${speedX > 0 ? '0' : '180'}deg)`;
-            
-            requestAnimationFrame(moveBee);
-        }
-
-        moveBee();
-
-        // Commentaires avec Hamis Baqal et Modrex
+        // Comments with Hamis Baqal and Modrex
         const comments = [
             {
                 user: "Hamis Baqal",
@@ -651,18 +684,24 @@
             alert("Hey! Je suis Redhos, le créateur de ce serveur. Rejoins-nous pour plus de contenus exclusifs!");
         });
 
+        // Enhanced 3D hover effect for cards
         const cards = document.querySelectorAll('.card');
         cards.forEach(card => {
             card.addEventListener('mousemove', (e) => {
                 const rect = card.getBoundingClientRect();
                 const x = e.clientX - rect.left;
                 const y = e.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
                 
-                card.style.transform = `perspective(1000px) rotateX(${(y - rect.height/2) / 20}deg) rotateY(${(x - rect.width/2) / 20}deg)`;
+                const rotateY = (x - centerX) / 20;
+                const rotateX = (centerY - y) / 20;
+                
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(20px)`;
             });
             
             card.addEventListener('mouseleave', () => {
-                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
+                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0)';
             });
         });
 
@@ -687,6 +726,17 @@
         musicPlayer.addEventListener('ended', () => {
             playBtn.innerHTML = '<i class="fas fa-play"></i> Écouter';
             playBtn.classList.remove('playing');
+        });
+
+        // Pause video when tab is inactive
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                backgroundVideo.pause();
+                bgMusic.pause();
+            } else {
+                backgroundVideo.play();
+                bgMusic.play();
+            }
         });
     </script>
 </body>
