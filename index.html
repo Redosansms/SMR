@@ -474,6 +474,134 @@
             transition: transform 0.5s ease-out;
         }
 
+        /* Announcement button */
+        #announcement-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: white;
+            font-size: 1.2rem;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s;
+        }
+
+        #announcement-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+
+        #announcement-btn .badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: red;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Announcement modal */
+        .announcement-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            backdrop-filter: blur(5px);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .announcement-content {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 2rem;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 90%;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+
+        .announcement-content h3 {
+            color: white;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .announcement-content p {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .close-announcement {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Coming soon banner */
+        .coming-soon {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            border-left: 4px solid #7289DA;
+            backdrop-filter: blur(5px);
+        }
+
+        .coming-soon h4 {
+            color: white;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .coming-soon p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .coming-soon a {
+            color: #7289DA;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .coming-soon a:hover {
+            text-decoration: underline;
+        }
+
         @media (max-width: 768px) {
             header {
                 flex-direction: column;
@@ -492,6 +620,14 @@
             .links-grid {
                 grid-template-columns: 1fr;
             }
+            
+            #announcement-btn {
+                top: 15px;
+                left: 15px;
+                width: 35px;
+                height: 35px;
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
@@ -500,6 +636,19 @@
         <source src="bg.mp4" type="video/mp4"/>
         Your browser does not support the video tag.
     </video>
+    
+    <button id="announcement-btn">
+        <i class="fas fa-bell"></i>
+        <span class="badge">1</span>
+    </button>
+    
+    <div class="announcement-modal" id="announcement-modal">
+        <div class="announcement-content">
+            <button class="close-announcement" id="close-announcement">&times;</button>
+            <h3><i class="fas fa-bell"></i> Annonce Importante</h3>
+            <p>Je vais peut-être mettre l'option forum sur le serveur mais pas pour discuter mais poster des "gros projet" et des fichiers avec tuto les trucs simples iront dans ⁠🔧-𝐅𝐢𝐜𝐡𝐢𝐞𝐫-𝐓𝐨𝐨𝐥𝐬. Allez voter dans le salon annonce vous avez 24h mais ça risque de s'arrêter avant.</p>
+        </div>
+    </div>
     
     <div id="volume-control">
         <svg viewBox="0 0 24 24">
@@ -520,7 +669,7 @@
                 </div>
             </div>
         </div>
-        <a href="https://discord.gg/KuqcvhNYpf" class="discord-btn" target="_blank">
+        <a href="https://discord.gg/w79AEsMsdh" class="discord-btn" target="_blank">
             <i class="fab fa-discord"></i> Rejoindre le Serveur
         </a>
     </header>
@@ -544,9 +693,14 @@
         <div class="card">
             <h2><i class="fas fa-music"></i> Crack Spotify Premium</h2>
             <p>Obtenez Spotify Premium gratuitement avec notre crack exclusif. Simple, rapide et efficace!</p>
-            <a href="https://discord.gg/KuqcvhNYpf" class="spotify-btn">
+            <a href="https://discord.gg/w79AEsMsdh" class="spotify-btn">
                 <i class="fab fa-spotify"></i> Télécharger le Crack
             </a>
+        </div>
+
+        <div class="coming-soon">
+            <h4><i class="fas fa-comments"></i> Coming Soon: Forum sur le serveur</h4>
+            <p>Un nouveau forum va bientôt arriver sur le serveur! Allez donner votre avis dans le salon <a href="https://discord.gg/w79AEsMsdh" target="_blank">annonce</a>.</p>
         </div>
 
         <div class="card">
@@ -579,7 +733,7 @@
             <h3><i class="fas fa-info-circle"></i> Mes Informations</h3>
             <p><strong>Pseudo Discord (2ème compte):</strong> <span class="rgb-text">vraisegirl</span></p>
             <p><strong>Contact:</strong> Disponible sur le serveur Discord</p>
-            <p><strong>Serveur Discord:</strong> https://discord.gg/KuqcvhNYpf</p>
+            <p><strong>Serveur Discord:</strong> https://discord.gg/w79AEsMsdh</p>
         </div>
     </div>
 
@@ -608,6 +762,25 @@
         document.addEventListener('click', function() {
             bgMusic.play().catch(e => console.log("Music play prevented:", e));
         }, { once: true });
+
+        // Announcement modal
+        const announcementBtn = document.getElementById('announcement-btn');
+        const announcementModal = document.getElementById('announcement-modal');
+        const closeAnnouncement = document.getElementById('close-announcement');
+
+        announcementBtn.addEventListener('click', () => {
+            announcementModal.style.display = 'flex';
+        });
+
+        closeAnnouncement.addEventListener('click', () => {
+            announcementModal.style.display = 'none';
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target === announcementModal) {
+                announcementModal.style.display = 'none';
+            }
+        });
 
         // Comments with Hamis Baqal and Modrex
         const comments = [
